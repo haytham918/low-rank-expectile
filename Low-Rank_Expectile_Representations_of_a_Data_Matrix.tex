@@ -147,19 +147,28 @@ For Mean Squared Error, we understand that the expectile loss value for $\tau = 
 
 \subsection{Comparison of Optimization Algorithms}
 
-In our pursuit to minimize the loss function, we have selected three candidate gradient-based algorithms: Broyden–Fletcher–Goldfarb–Shanno algorithm (\textbf{BFGS}) \cite{35d0019d-775a-3628-b0b4-67be112e346b}, Limited-Memory Broyden–Fletcher– Goldfarb–Shanno algorithm (\textbf{LBFGS}) \cite{liu1989limited}, and Conjugate Gradient method (\textbf{CG}) \cite{hestenes1952methods}. To evaluate the performance and efficiency of these algorithms, we utilized the previously generated simulated data to fit our model, conducting 10 trials for each algorithm. During these trials, we meticulously documented the loss function value at every iteration, alongside the final loss value obtained. Subsequently, we graphed both the raw and logarithmic loss function values, corresponding to a specific expectile $\tau$ and rank $k$.
+In our pursuit to minimize the loss function, we have selected three candidate gradient-based algorithms: Broyden–Fletcher–Goldfarb–Shanno algorithm (\textbf{BFGS}) \cite{35d0019d-775a-3628-b0b4-67be112e346b}, Limited-Memory Broyden–Fletcher– Goldfarb–Shanno algorithm (\textbf{LBFGS}) \cite{liu1989limited}, and Conjugate Gradient method (\textbf{CG}) \cite{hestenes1952methods}. To evaluate the performance and efficiency of these algorithms, we repetitively generated different simulated datasets as described above 100 times, and each time we conducted 50 initialization with specific $\tau = 0.2$ and rank $k = 3$. We recorded the average loss and time of each algorithm and find the algorithm with the smallest average loss and time respectively. Subsequently, we .
 
-The aggregated results, depicted in the figure \ref{lossfigure_comparison} below, reveal distinctive patterns across hundreds of simulations. Notably, the \textbf{BFGS} algorithm exhibits a generally monotonic descent in loss value. Nonetheless, it occasionally encounters periods of stagnation, typically spanning 10-20 iterations, before resuming its downward trajectory. This intermittent stalling contributes to its considerably protracted computation time, typically exceeding that of \textbf{LBFGS} and \textbf{CG} by over a hundredfold. In contrast, the \textbf{LBFGS} and \textbf{CG} methods demonstrate higher convergence rates, with \textbf{LBFGS} outpacing \textbf{CG}. Despite their rapid convergence, both algorithms experience sporadic surges of instability in the loss function values at certain iterations. Ultimately, the final loss values attained by all three algorithms display a high degree of consistency.
+The aggregated results, depicted in the table \ref{tab:algorithm_simulation} below, for each of the 100 different simulated datasets, \textbf{BFGS} has the minimum final loss, but the differences in loss values among the three algorithms are extremely small, about 0.00000001. While \textbf{LBFGS} outperforms significantly in the time of execution. It's about 100 times faster than \textbf{BFGS} and 2-3 times faster than \textbf{CG}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{2cm}|p{4.5cm}|p{4.5cm}|}
+    \hline
+     \textbf{Algorithm}    & Number of times with minimum final loss & Number of times with minimum time of execution \\
+     \hline
+     BFGS    &  & 0\\
+     \hline
+     LBFGS & & 100\\
+     \hline
+     CG & & 0\\
+     \hline
+    \end{tabular}
+    \caption{Algorithm comparison running with 100 simulated datasets and 50 initialization each dataset}
+    \label{tab:algorithm_simulation}
+\end{table}
 
 Given that the loss values converged by the trio of algorithms are nearly indistinguishable, and considering the markedly reduced computational duration offered by \textbf{LBFGS} in comparison to its counterparts, we have elected to employ the \textbf{LBFGS} algorithm for fitting our model to the public dataset. This decision is predicated on the algorithm's enhanced efficiency in calculating our predictive matrix.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.9\textwidth]{lossfigure.pdf}
-    \caption{Snapshot of loss values for 3 algorithms when $\tau = 0.3$ and $k = 2$}
-    \label{lossfigure_comparison}
-\end{figure}
-\FloatBarrier
 
 
 \subsection{Resilience of Model to Random Initialization}
@@ -179,7 +188,7 @@ The outcomes depicted in figure \ref{Heatmap} suggest that the variability in th
 \subsection{Effect of misspecification of model rank}
 In our simulation study, we further explored the impact of the selected model rank on the loss value. Our findings indicate that when the true rank of $U$ and $V$ is denoted as $x$, and the chosen model rank $k$ is less than this true rank ($k < x$), the resultant final loss value significantly exceeds the anticipated range, deteriorating further as $k$ decreases. Conversely, when the selected model rank $k$ meets or surpasses the true rank ($k \geq x$), the final loss values align closely with expectations. However, it is noteworthy that the optimization duration escalates with an increase in $k$.
 
-For instance, consistent with the previous discussion, the true rank of the simulated data's $U$ and $V$ matrices is 2. We conducted simulations across different ranks $k = 1, 2, 3, 4$ with a constant $\tau = 0.1$. The empirical outcomes, depicted in the subsequent figures, demonstrate that the final loss values for $k = 1$ are approximately an order of magnitude greater than those obtained for $k = 2, 3, 4$. Furthermore, while the loss values for $k = 2, 3, 4$ exhibit remarkable consistency, the computational time required by the algorithm significantly increases with slight overfitting for $k = 3$ and $4$, compared to the true rank of 2. We present the results for rank from 1 to 4 in the table \ref{tab:varying_k} below.
+For instance, consistent with the previous discussion, the true rank of the simulated data's $U$ and $V$ matrices is 2. We conducted simulations across different ranks $k = 1, 2, 3, 4$ with a constant $\tau = 0.1$ for average of hundreds of trials. The empirical outcomes, depicted in the subsequent table, demonstrate that the final loss values for $k = 1$ are approximately an order of magnitude greater than those obtained for $k = 2, 3, 4$. Furthermore, while the loss values for $k = 2, 3, 4$ exhibit remarkable consistency, the computational time required by the algorithm significantly increases with slight overfitting for $k = 3$ and $4$, compared to the true rank of 2. We present the results for rank from 1 to 4 in the table \ref{tab:varying_k} below.
 
 These observations can be rationalized by acknowledging that a model rank lower than the true rank leads to an underspecified model with insufficient parameters, introducing systematic bias and manifesting as an under-fitted model with elevated loss values. In contrast, a model rank exceeding the true rank results in an overspecified scenario where the model, burdened by an excess of parameters, necessitates extended periods to minimize loss, yet ultimately converges to a loss value that mirrors the expected outcome.
 
