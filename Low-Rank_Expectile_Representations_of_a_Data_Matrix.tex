@@ -149,7 +149,7 @@ For Mean Squared Error, we understand that the expectile loss value for $\tau = 
 
 In our pursuit to minimize the loss function, we have selected three candidate gradient-based algorithms: Broyden–Fletcher–Goldfarb–Shanno algorithm (\textbf{BFGS}) \cite{35d0019d-775a-3628-b0b4-67be112e346b}, Limited-Memory Broyden–Fletcher– Goldfarb–Shanno algorithm (\textbf{LBFGS}) \cite{liu1989limited}, and Conjugate Gradient method (\textbf{CG}) \cite{hestenes1952methods}. To evaluate the performance and efficiency of these algorithms, we repetitively generated different simulated datasets as described above 100 times, and each time we conducted 50 initialization with specific $\tau = 0.2$ and rank $k = 3$. We recorded the average loss and time of each algorithm and find the algorithm with the smallest average loss and time respectively. Subsequently, we .
 
-The aggregated results, depicted in the table \ref{tab:algorithm_simulation} below, for each of the 100 different simulated datasets, \textbf{BFGS} has the minimum final loss, but the differences in loss values among the three algorithms are extremely small, about 0.00000001. While \textbf{LBFGS} outperforms significantly in the time of execution. It's about 100 times faster than \textbf{BFGS} and 2-3 times faster than \textbf{CG}.
+The aggregated results, depicted in the table \ref{tab:algorithm_simulation} below, for each of the 100 different simulated datasets, the three algorithms have the minimum final loss almost evenly, and the differences in loss values among the three algorithms are extremely small, less than 0.00000001. While \textbf{LBFGS} outperforms significantly in the time of execution. It's about 100 times faster than \textbf{BFGS} and 2-3 times faster than \textbf{CG}.
 
 \begin{table}[H]
     \centering
@@ -157,14 +157,14 @@ The aggregated results, depicted in the table \ref{tab:algorithm_simulation} bel
     \hline
      \textbf{Algorithm}    & Number of times with minimum final loss & Number of times with minimum time of execution \\
      \hline
-     BFGS    &  & 0\\
+     BFGS    & 36 & 0\\
      \hline
-     LBFGS & & 100\\
+     LBFGS & 31 & 100\\
      \hline
-     CG & & 0\\
+     CG & 33 & 0\\
      \hline
     \end{tabular}
-    \caption{Algorithm comparison running with 100 simulated datasets and 50 initialization each dataset}
+    \caption{Algorithm comparison with 100 simulated datasets and 50 initialization of each dataset}
     \label{tab:algorithm_simulation}
 \end{table}
 
