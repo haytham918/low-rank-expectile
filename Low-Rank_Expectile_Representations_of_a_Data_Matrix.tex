@@ -149,7 +149,24 @@ For Mean Squared Error, we understand that the expectile loss value for $\tau = 
 
 In our pursuit to minimize the loss function, we have selected three candidate gradient-based algorithms: Broyden–Fletcher–Goldfarb–Shanno algorithm (\textbf{BFGS}) \cite{35d0019d-775a-3628-b0b4-67be112e346b}, Limited-Memory Broyden–Fletcher– Goldfarb–Shanno algorithm (\textbf{LBFGS}) \cite{liu1989limited}, and Conjugate Gradient method (\textbf{CG}) \cite{hestenes1952methods}. To evaluate the performance and efficiency of these algorithms, we utilized the previously generated simulated data to fit our model, conducting 10 trials for each algorithm. During these trials, we meticulously documented the loss function value at every iteration, alongside the final loss value obtained. Subsequently, we graphed both the raw and logarithmic loss function values, corresponding to a specific expectile $\tau$ and rank $k$.
 
-The aggregated results, depicted in the figure \ref{lossfigure_comparison} below, reveal distinctive patterns across hundreds of simulations. Notably, the \textbf{BFGS} algorithm exhibits a generally monotonic descent in loss value. Nonetheless, it occasionally encounters periods of stagnation, typically spanning 10-20 iterations, before resuming its downward trajectory. This intermittent stalling contributes to its considerably protracted computation time, typically exceeding that of \textbf{LBFGS} and \textbf{CG} by over a hundredfold. In contrast, the \textbf{LBFGS} and \textbf{CG} methods demonstrate higher convergence rates, with \textbf{LBFGS} outpacing \textbf{CG}. Despite their rapid convergence, both algorithms experience sporadic surges of instability in the loss function values at certain iterations. Ultimately, the final loss values attained by all three algorithms display a high degree of consistency.
+The aggregated results, depicted in the table \ref{tab:algorithm_simulation} below, for each of the 100 different simulated datasets, the three algorithms have the minimum final loss almost evenly, and the differences in loss values among the three algorithms are extremely small, less than 0.00000001. While \textbf{LBFGS} outperforms significantly in the time of execution. It's about 100 times faster than \textbf{BFGS} and 2-3 times faster than \textbf{CG}.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{2cm}|p{4.5cm}|p{4.5cm}|}
+    \hline
+     \textbf{Algorithm}    & Number of times with minimum final loss & Number of times with minimum time of execution \\
+     \hline
+     BFGS    & 36 & 0\\
+     \hline
+     LBFGS & 31 & 100\\
+     \hline
+     CG & 33 & 0\\
+     \hline
+    \end{tabular}
+    \caption{Algorithm comparison with 100 simulated datasets and 50 initialization of each dataset}
+    \label{tab:algorithm_simulation}
+\end{table}
 
 Given that the loss values converged by the trio of algorithms are nearly indistinguishable, and considering the markedly reduced computational duration offered by \textbf{LBFGS} in comparison to its counterparts, we have elected to employ the \textbf{LBFGS} algorithm for fitting our model to the public dataset. This decision is predicated on the algorithm's enhanced efficiency in calculating our predictive matrix.
 
